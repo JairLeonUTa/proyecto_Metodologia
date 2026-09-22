@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
@@ -7,55 +6,41 @@ function Login() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      // Vite usa import.meta.env para acceder a las variables del archivo .env
-      const apiUrl = import.meta.env.VITE_AUTH_API;
-      
-      const response = await axios.post(`${apiUrl}/login`, {
-        usuario,
-        password
-      });
-      
-      // Se extrae el token y se guarda en localStorage
-      const token = response.data.token;
-      localStorage.setItem('token', token);
-      
-      alert('¡Login exitoso!');
-      navigate('/panel'); // Redirige al panel tras un login correcto
-      
-    } catch (error) {
-      console.error('Error al iniciar sesión:', error);
-      alert('Error en el login. Asegúrate de que el backend esté encendido.');
+    if (usuario.trim() && password.trim()) {
+      // Redirige al panel de activos al hacer clic en Ingresar
+      navigate('/panel');
     }
   };
 
   return (
-    <div style={{ padding: '20px', maxWidth: '300px', margin: '0 auto' }}>
+    <div style={{ padding: '40px', maxWidth: '400px', margin: '0 auto', textAlign: 'center' }}>
       <h2>Iniciar Sesión</h2>
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-        <div>
+        <div style={{ textAlign: 'left' }}>
           <label>Usuario:</label>
-          <input 
-            type="text" 
-            value={usuario} 
-            onChange={(e) => setUsuario(e.target.value)} 
-            required 
-            style={{ width: '100%', padding: '5px' }}
+          <input
+            type="text"
+            value={usuario}
+            onChange={(e) => setUsuario(e.target.value)}
+            required
+            style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
           />
         </div>
-        <div>
+        <div style={{ textAlign: 'left' }}>
           <label>Contraseña:</label>
-          <input 
-            type="password" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
-            required 
-            style={{ width: '100%', padding: '5px' }}
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
           />
         </div>
-        <button type="submit" style={{ padding: '10px', cursor: 'pointer' }}>Ingresar</button>
+        <button type="submit" style={{ padding: '10px', cursor: 'pointer' }}>
+          Ingresar
+        </button>
       </form>
     </div>
   );
