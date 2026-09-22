@@ -1,15 +1,16 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login';
+import Dashboard from './components/Dashboard';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />
-        
-        {/* Aquí ya estamos llamando al componente real */}
         <Route path="/login" element={<Login />} />
-        <Route path="/panel" element={<h2>Vista del Panel (En construcción)</h2>} />
+        
+        {/* Aquí llamamos al componente real que acabas de crear */}
+        <Route path="/panel" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
   );
