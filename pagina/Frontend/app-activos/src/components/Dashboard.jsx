@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-
-// URL base del backend (usa variable de entorno o puerto 5000 por defecto)
-const API_URL = import.meta.env.VITE_ACTIVOS_API || 'http://localhost:5000/api';
+import { useNavigate } from 'react-router-dom';
+import api from '../api'; // Interceptor con seguridad
 
 function Dashboard() {
   const [nombreActivo, setNombreActivo] = useState('');
@@ -10,11 +8,19 @@ function Dashboard() {
   const [categoria, setCategoria] = useState('');
   const [amortizaciones, setAmortizaciones] = useState([]);
   const [cargando, setCargando] = useState(false);
+  
+  const navigate = useNavigate();
+
+  // Función para cerrar sesión (elimina el token y te patea al login)
+  const handleCerrarSesion = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
 
   // Función para obtener la lista calculada de amortizaciones (GET)
   const obtenerDatos = async () => {
     try {
-      const response = await axios.get(`${API_URL}/activos`);
+      const response = await api.get('/activos');
       setAmortizaciones(response.data);
     } catch (error) {
       console.warn('Backend aún no disponible o sin registros:', error.message);
@@ -37,8 +43,8 @@ function Dashboard() {
     };
 
     try {
-      await axios.post(`${API_URL}/activos`, payload);
-      // Limpiar formulario y refrescar la tabla con la respuesta del servidor
+      await api.post('/activos', payload);
+      
       setNombreActivo('');
       setValorCompra('');
       setCategoria('');
@@ -54,6 +60,14 @@ function Dashboard() {
   return (
     <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
       <h2>Panel de Control - Registro de Activos</h2>
+      
+      {/* Botón de Cerrar Sesión */}
+      <button 
+        onClick={handleCerrarSesion} 
+        style={{ marginBottom: '20px', padding: '8px 15px', backgroundColor: '#dc3545', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+      >
+        Cerrar Sesión
+      </button>
 
       {/* Formulario */}
       <form onSubmit={handleRegistro} style={{ display: 'flex', gap: '10px', marginBottom: '30px' }}>
