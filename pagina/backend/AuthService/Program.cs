@@ -12,8 +12,17 @@ builder.Services.AddDbContext<AuthDbContext>(options =>
 
 var app = builder.Build();
 
+app.UseCors("AllowReactApp");
 // 3. Mapear las rutas de los controladores (hace que las URLs de la API funcionen)
 app.MapControllers();
 
 // 4. Iniciar la aplicación
 app.Run();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", policy =>
+        policy.WithOrigins("http://localhost:5173")
+              .AllowAnyHeader()
+              .AllowAnyMethod());
+});

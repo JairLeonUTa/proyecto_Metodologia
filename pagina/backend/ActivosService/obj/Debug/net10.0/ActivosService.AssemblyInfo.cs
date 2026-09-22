@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ActivosService")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+08584fa9f3ed4079d6e3c33e8c7f01593303e7e1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ef065a69d4e0c0084acf40e40d913c0aaf612dcd")]
 [assembly: System.Reflection.AssemblyProductAttribute("ActivosService")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ActivosService")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

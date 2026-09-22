@@ -329,3 +329,5 @@ C:\Users\jair\Desktop\proy\pagina\backend\ActivosService\obj\Debug\net10.0\refin
 C:\Users\jair\Desktop\proy\pagina\backend\ActivosService\obj\Debug\net10.0\ActivosService.pdb
 C:\Users\jair\Desktop\proy\pagina\backend\ActivosService\obj\Debug\net10.0\ActivosService.genruntimeconfig.cache
 C:\Users\jair\Desktop\proy\pagina\backend\ActivosService\obj\Debug\net10.0\ref\ActivosService.dll
+C:\Users\jair\Desktop\proy\pagina\backend\ActivosService\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\jair\Desktop\proy\pagina\backend\ActivosService\bin\Debug\net10.0\Microsoft.Bcl.Cryptography.dll
