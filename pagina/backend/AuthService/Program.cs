@@ -3,22 +3,14 @@ using AuthService.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Habilitar los controladores (necesario para que reconozca tu AuthController)
+// 1. Habilitar controladores
 builder.Services.AddControllers();
 
-// 2. Configurar la conexión a SQL Server usando Entity Framework
+// 2. Configurar base de datos
 builder.Services.AddDbContext<AuthDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-var app = builder.Build();
-
-app.UseCors("AllowReactApp");
-// 3. Mapear las rutas de los controladores (hace que las URLs de la API funcionen)
-app.MapControllers();
-
-// 4. Iniciar la aplicación
-app.Run();
-
+// 3. Configurar CORS (DEBE ESTAR ANTES DEL BUILD)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
@@ -26,3 +18,12 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader()
               .AllowAnyMethod());
 });
+
+var app = builder.Build();
+
+// 4. Usar CORS 
+app.UseCors("AllowReactApp");
+
+// 5. Mapear rutas y ejecutar
+app.MapControllers();
+app.Run();

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; 
-
+import { authApi } from '../api'; // Importamos la instancia configurada para el puerto 5001
 
 function Login() {
   const [usuario, setUsuario] = useState('');
@@ -15,8 +14,11 @@ function Login() {
 
     if (usuario.trim() && password.trim()) {
       try {
-        const AUTH_URL = import.meta.env.VITE_AUTH_URL || 'http://localhost:5001/api';
-        const response = await axios.post(`${AUTH_URL}/login`, { usuario, password });
+        // Usamos authApi y la ruta correcta hacia el controlador (/auth/login)
+        const response = await authApi.post('/auth/login', { 
+          username: usuario, 
+          password: password 
+        });
         
         const tokenReal = response.data.token; 
 
