@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; 
 
+
 function Login() {
   const [usuario, setUsuario] = useState('');
   const [password, setPassword] = useState('');
@@ -18,6 +19,7 @@ function Login() {
         const response = await axios.post(`${AUTH_URL}/login`, { usuario, password });
         
         const tokenReal = response.data.token; 
+
         if (tokenReal) {
           localStorage.setItem('token', tokenReal);
           navigate('/panel');

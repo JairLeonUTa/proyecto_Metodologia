@@ -81,7 +81,6 @@ function Dashboard() {
     
     return añoFila <= limite;
   });
-
   return (
     <div style={{ backgroundColor: '#f4f7f6', minHeight: '100vh', paddingBottom: '40px' }}>
       <nav style={{ backgroundColor: '#0f172a', padding: '15px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: 'white', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>
@@ -89,6 +88,7 @@ function Dashboard() {
         <button className="btn" onClick={handleCerrarSesion} style={{ padding: '8px 16px', backgroundColor: '#ef4444', color: 'white', border: 'none', borderRadius: '6px', fontWeight: 'bold', cursor: 'pointer' }}>
           Cerrar Sesión
         </button>
+
       </nav>
 
       <div style={{ maxWidth: '1000px', margin: '40px auto', padding: '0 20px' }}>
