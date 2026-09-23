@@ -9,7 +9,10 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (usuario.trim() && password.trim()) {
-      // Redirige al panel de activos al hacer clic en Ingresar
+      // Simulamos guardar el token que (en el futuro) nos dará el backend de tu compañero
+      localStorage.setItem('token', 'este_es_un_token_jwt_de_prueba');
+      
+      // Redirige al panel
       navigate('/panel');
     }
   };

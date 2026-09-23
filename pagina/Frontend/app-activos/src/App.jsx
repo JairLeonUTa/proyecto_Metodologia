@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
+import PrivateRoute from './components/PrivateRoute'; // <-- Importamos el guardia
 
 function App() {
   return (
@@ -9,8 +10,15 @@ function App() {
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<Login />} />
         
-        {/* Aquí llamamos al componente real que acabas de crear */}
-        <Route path="/panel" element={<Dashboard />} />
+        {/* Envolvemos el Dashboard con PrivateRoute para protegerlo */}
+        <Route 
+          path="/panel" 
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          } 
+        />
       </Routes>
     </BrowserRouter>
   );
