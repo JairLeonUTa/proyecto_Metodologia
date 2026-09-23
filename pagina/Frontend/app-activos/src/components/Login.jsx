@@ -1,50 +1,88 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { authApi } from '../api'; // Importamos la instancia configurada para el puerto 5001
 
 function Login() {
   const [usuario, setUsuario] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+
     if (usuario.trim() && password.trim()) {
-      // Simulamos guardar el token que (en el futuro) nos dará el backend de tu compañero
-      localStorage.setItem('token', 'este_es_un_token_jwt_de_prueba');
-      
-      // Redirige al panel
-      navigate('/panel');
+      try {
+        // Usamos authApi y la ruta correcta hacia el controlador (/auth/login)
+        const response = await authApi.post('/auth/login', { 
+          username: usuario, 
+          password: password 
+        });
+        
+        const tokenReal = response.data.token; 
+
+        if (tokenReal) {
+          localStorage.setItem('token', tokenReal);
+          navigate('/panel');
+        }
+      } catch (err) {
+        console.error('Error de login:', err);
+        setError('Credenciales incorrectas o servidor apagado.');
+      }
     }
   };
 
   return (
-    <div style={{ padding: '40px', maxWidth: '400px', margin: '0 auto', textAlign: 'center' }}>
-      <h2>Iniciar Sesión</h2>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-        <div style={{ textAlign: 'left' }}>
-          <label>Usuario:</label>
-          <input
-            type="text"
-            value={usuario}
-            onChange={(e) => setUsuario(e.target.value)}
-            required
-            style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
-          />
+    <div style={{ display: 'flex', height: '100vh', backgroundColor: '#fff' }}>
+      {/* Sección Izquierda: Imagen relacionada a contabilidad y activos */}
+      <div style={{ 
+        flex: 1, 
+        backgroundImage: 'url("https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1000&q=80")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}>
+      </div>
+
+      {/* Sección Derecha: Formulario */}
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px' }}>
+        <div style={{ width: '100%', maxWidth: '400px' }}>
+          <h2 style={{ fontSize: '2rem', marginBottom: '10px', color: '#1a1a1a' }}>Bienvenido de nuevo</h2>
+          <p style={{ color: '#666', marginBottom: '30px' }}>Ingresa tus credenciales para acceder al sistema de activos.</p>
+          
+          {error && <p style={{ color: '#d9534f', backgroundColor: '#fdf7f7', padding: '12px', borderRadius: '6px', borderLeft: '4px solid #d9534f' }}>{error}</p>}
+          
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <div>
+              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#444' }}>Usuario</label>
+              <input
+                className="input-modern"
+                type="text"
+                placeholder="Ej. administrador"
+                value={usuario}
+                onChange={(e) => setUsuario(e.target.value)}
+                required
+                style={{ width: '100%', padding: '12px', border: '1px solid #ccc', borderRadius: '8px', boxSizing: 'border-box', fontSize: '1rem' }}
+              />
+            </div>
+            <div>
+              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#444' }}>Contraseña</label>
+              <input
+                className="input-modern"
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                style={{ width: '100%', padding: '12px', border: '1px solid #ccc', borderRadius: '8px', boxSizing: 'border-box', fontSize: '1rem' }}
+              />
+            </div>
+            <button className="btn" type="submit" style={{ padding: '14px', marginTop: '10px', backgroundColor: '#0f172a', color: 'white', border: 'none', borderRadius: '8px', fontSize: '1rem', fontWeight: 'bold', cursor: 'pointer' }}>
+              Iniciar Sesión
+            </button>
+          </form>
         </div>
-        <div style={{ textAlign: 'left' }}>
-          <label>Contraseña:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
-          />
-        </div>
-        <button type="submit" style={{ padding: '10px', cursor: 'pointer' }}>
-          Ingresar
-        </button>
-      </form>
+      </div>
     </div>
   );
 }

@@ -24,26 +24,29 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuer = false,
             ValidateAudience = false,
             ValidateLifetime = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? ""))
         };
     });
 
 // 3. Habilitar controladores
 builder.Services.AddControllers();
 
-// 4. Configurar la conexión a la base de datos ActivosDB
+// 4. Configurar conexión a la base de datos ActivosDB
 builder.Services.AddDbContext<ActivosDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
-// 5. Configurar el orden del Middleware
+// --- PIPELINE DE MIDDLEWARES (EL ORDEN ES ESTRICTO) ---
+
+// A. Aplicar CORS primero
 app.UseCors("AllowReactApp");
 
+// B. Autenticación y Autorización después
 app.UseAuthentication();
 app.UseAuthorization();
 
-// 6. Mapear las rutas (endpoints) de la API
+// C. Mapear controladores al final
 app.MapControllers();
 
 app.Run();
