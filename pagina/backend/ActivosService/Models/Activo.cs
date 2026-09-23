@@ -7,5 +7,6 @@ namespace ActivosService.Models
         public decimal ValorCompra { get; set; }
         public int CategoriaId { get; set; }
         public int UsuarioID { get; set; } // INT normal, sin FK
+        public bool EsActivo { get; set; } = true;
     }
 }

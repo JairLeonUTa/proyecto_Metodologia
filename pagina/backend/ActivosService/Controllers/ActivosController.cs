@@ -64,6 +64,26 @@ namespace ActivosService.Controllers
 
             return Ok(new { message = "Activo e historial de depreciación registrados con éxito.", activoId = nuevoActivo.Id });
         }
+        [HttpPut("baja/{id}")]
+public IActionResult DarDeBaja(int id)
+{
+    var activo = _context.Activos.Find(id);
+    
+    if (activo == null)
+    {
+        return NotFound(new { message = "Activo no encontrado." });
+    }
+
+    if (!activo.EsActivo)
+    {
+        return BadRequest(new { message = "El activo ya se encuentra dado de baja." });
+    }
+
+    activo.EsActivo = false;
+    _context.SaveChanges();
+
+    return Ok(new { message = $"El activo con ID {id} ha sido dado de baja exitosamente, deteniendo su depreciación futura." });
+}
     }
 
     // DTO para recibir la petición
