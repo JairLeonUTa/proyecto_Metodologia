@@ -57,6 +57,30 @@ function Dashboard() {
     }
   };
 
+  // Función para descargar el reporte como Blob (Fase 4)
+  const handleDescargarReporte = async () => {
+    try {
+      // Pedimos el reporte y le decimos a Axios que lo trate como un archivo (blob)
+      const response = await api.get('/activos/exportar', {
+        responseType: 'blob', 
+      });
+      
+      // Magia para forzar la descarga en el navegador
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'Reporte_Activos.pdf'); // Puedes cambiar .pdf por .xlsx según lo que haga el backend
+      document.body.appendChild(link);
+      link.click();
+      
+      // Limpiamos el enlace temporal
+      link.remove();
+    } catch (error) {
+      console.error('Error al descargar el reporte:', error);
+      alert('Hubo un error al intentar descargar el reporte.');
+    }
+  };
+
   return (
     <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
       <h2>Panel de Control - Registro de Activos</h2>
@@ -96,8 +120,18 @@ function Dashboard() {
         </button>
       </form>
 
+      {/* Encabezado de la tabla con botón de descarga */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+        <h3 style={{ margin: 0 }}>Tabla de Amortización</h3>
+        <button 
+          onClick={handleDescargarReporte}
+          style={{ padding: '8px 15px', backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+        >
+          Descargar Reporte
+        </button>
+      </div>
+
       {/* Tabla Dinámica */}
-      <h3>Tabla de Amortización</h3>
       <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
         <thead>
           <tr style={{ borderBottom: '2px solid #ccc' }}>
