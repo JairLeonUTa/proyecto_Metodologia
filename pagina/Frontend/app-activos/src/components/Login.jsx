@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { authApi } from '../api'; // Importamos la instancia configurada para el puerto 5001
+import { useNavigate, Link } from 'react-router-dom'; // <-- Importamos Link
+import { authApi } from '../api'; 
 
 function Login() {
   const [usuario, setUsuario] = useState('');
@@ -14,7 +14,6 @@ function Login() {
 
     if (usuario.trim() && password.trim()) {
       try {
-        // Usamos authApi y la ruta correcta hacia el controlador (/auth/login)
         const response = await authApi.post('/auth/login', { 
           username: usuario, 
           password: password 
@@ -81,6 +80,17 @@ function Login() {
               Iniciar Sesión
             </button>
           </form>
+
+          {/* <-- Nueva sección con el enlace de registro --> */}
+          <div style={{ marginTop: '25px', textAlign: 'center' }}>
+            <p style={{ color: '#666', margin: 0 }}>
+              ¿No tienes una cuenta?{' '}
+              <Link to="/registro" style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: '600' }}>
+                Regístrate aquí
+              </Link>
+            </p>
+          </div>
+
         </div>
       </div>
     </div>
