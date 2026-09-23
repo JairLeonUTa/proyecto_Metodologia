@@ -1,0 +1,36 @@
+/* Reseteo básico y fuente moderna */
+body {
+  margin: 0;
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f7f6;
+  color: #333;
+}
+
+/* Efectos para los botones */
+.btn {
+  transition: all 0.3s ease;
+}
+.btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  filter: brightness(1.1);
+}
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Efectos para los inputs */
+.input-modern {
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.input-modern:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+/* Filas de la tabla */
+.table-row:hover {
+  background-color: #f1f5f9;
+}
